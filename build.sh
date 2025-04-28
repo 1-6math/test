@@ -1,12 +1,16 @@
 #!/bin/sh
 cd ../
-mkdir output
+mkdir -p output
 
-# 일반 파일 복사 (build.sh 제외하고 복사)
-rsync -av --exclude 'build.sh' ./test/ ./output/
+# 1. test 디렉토리의 모든 파일과 디렉토리를 output으로 복사 (숨김 파일 제외)
+cp -R ./test/* ./output/
 
-# 숨김 파일 복사 (.gitignore 등)
+# 2. .gitignore만 복사
 cp ./test/.gitignore ./output/
 
-# output -> 다시 test로 복사
+# 3. output 디렉토리에서 build.sh 파일 제거
+rm -f ./output/build.sh
+
+# 4. output의 내용을 다시 test로 복사
 cp -R ./output/* ./test/
+cp ./output/.gitignore ./test/
